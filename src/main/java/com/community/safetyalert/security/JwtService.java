@@ -1,4 +1,4 @@
-package com.community.safetyalert.service;
+package com.community.safetyalert.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

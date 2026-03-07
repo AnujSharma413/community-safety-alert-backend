@@ -1,7 +1,7 @@
 package com.community.safetyalert.controller;
 
 import com.community.safetyalert.dto.auth.LoginRequestDTO;
-import com.community.safetyalert.service.JwtService;
+import com.community.safetyalert.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

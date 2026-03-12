@@ -4,6 +4,7 @@ import com.community.safetyalert.dto.incident.IncidentRequestDTO;
 import com.community.safetyalert.dto.incident.IncidentResponseDTO;
 import com.community.safetyalert.service.IncidentReportService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,8 @@ public class IncidentReportController {
         this.incidentReportService = incidentReportService;
     }
 
-    @PostMapping("/user/{userId}")
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/reports")
     public IncidentResponseDTO createReport(
             @Valid @RequestBody IncidentRequestDTO dto,
             @PathVariable Long userId){
@@ -26,17 +28,20 @@ public class IncidentReportController {
         return incidentReportService.createReport(dto, userId);
     }
 
-    @GetMapping
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @GetMapping("/reports")
     public List<IncidentResponseDTO> getAllReports(){
         return incidentReportService.getAllReports();
     }
 
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/user/{userId}")
     public List<IncidentResponseDTO> getReportsByUser(@PathVariable Long userId){
         return incidentReportService.getReportsByUser(userId);
     }
 
-    @PutMapping("/{reportId}/status")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/reports/{id}/status")
     public IncidentResponseDTO updateStatus(
             @PathVariable Long reportId,
             @RequestParam String status){

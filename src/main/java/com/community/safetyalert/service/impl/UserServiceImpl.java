@@ -1,7 +1,9 @@
 package com.community.safetyalert.service.impl;
 
+
 import com.community.safetyalert.dto.user.UserRequestDTO;
 import com.community.safetyalert.dto.user.UserResponseDTO;
+
 import com.community.safetyalert.model.Role;
 import com.community.safetyalert.model.User;
 import com.community.safetyalert.repository.UserRepo;
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole(Role.USER);
+        user.setRole(dto.getRole() != null ? dto.getRole() : Role.USER);
 
         User savedUser = userRepo.save(user);
 

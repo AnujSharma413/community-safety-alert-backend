@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api")
 public class IncidentReportController {
 
     private final IncidentReportService incidentReportService;
@@ -20,7 +20,7 @@ public class IncidentReportController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @PostMapping("/reports")
+    @PostMapping("/reports/{userId}")
     public IncidentResponseDTO createReport(
             @Valid @RequestBody IncidentRequestDTO dto,
             @PathVariable Long userId){
@@ -41,11 +41,23 @@ public class IncidentReportController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/admin/reports/{id}/status")
+    @PutMapping("/admin/reports/{reportId}/status")
     public IncidentResponseDTO updateStatus(
             @PathVariable Long reportId,
             @RequestParam String status){
 
         return incidentReportService.updateStatus(reportId, status);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/reports/{id}/verify")
+    public IncidentResponseDTO verifyReport(@PathVariable Long id){
+        return incidentReportService.verifyReport(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/reports/{id}/reject")
+    public IncidentResponseDTO rejectReport(@PathVariable Long id){
+        return incidentReportService.rejectReport(id);
     }
 }

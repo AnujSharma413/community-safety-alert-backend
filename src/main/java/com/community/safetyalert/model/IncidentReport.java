@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IncidentReport {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,7 +34,14 @@ public class IncidentReport {
     @Enumerated(EnumType.STRING)
     private ReportStatus status;
 
+    @Column(nullable = false, updatable = false)
     private LocalDateTime reportedAt;
+
+    @PrePersist
+    public void setDefaults() {
+        this.reportedAt = LocalDateTime.now();
+        this.status = ReportStatus.PENDING;
+    }
 
     private String mediaUrl;
 

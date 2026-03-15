@@ -125,4 +125,45 @@ public class IncidentReportServiceImpl implements IncidentReportService {
                 updated.getReportedBy().getName()
         );
     }
+
+    @Override
+    public IncidentResponseDTO verifyReport(Long reportId){
+
+        IncidentReport report = reportRepo.findById(reportId)
+                .orElseThrow(() -> new RuntimeException("Report not found"));
+
+        report.setStatus(ReportStatus.VERIFIED);
+
+        IncidentReport saved = reportRepo.save(report);
+
+        return mapToResponse(saved);
+    }
+
+    @Override
+    public IncidentResponseDTO rejectReport(Long reportId){
+
+        IncidentReport report = reportRepo.findById(reportId)
+                .orElseThrow(() -> new RuntimeException("Report not found"));
+
+        report.setStatus(ReportStatus.REJECTED);
+
+        IncidentReport saved = reportRepo.save(report);
+
+        return mapToResponse(saved);
+    }
+
+    private IncidentResponseDTO mapToResponse(IncidentReport report){
+
+        return new IncidentResponseDTO(
+                report.getId(),
+                report.getTitle(),
+                report.getDescription(),
+                report.getCategory(),
+                report.getLocationName(),
+                report.getStatus().name(),
+                report.getReportedAt(),
+                report.getMediaUrl(),
+                report.getReportedBy().getName()
+        );
+    }
 }

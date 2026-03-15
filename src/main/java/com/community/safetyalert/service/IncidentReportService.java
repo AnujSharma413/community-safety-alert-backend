@@ -15,4 +15,8 @@ public interface IncidentReportService {
     List<IncidentResponseDTO> getReportsByUser(Long userId);
 
     IncidentResponseDTO updateStatus(Long reportId, String status);
+
+    IncidentResponseDTO verifyReport(Long reportId);
+
+    IncidentResponseDTO rejectReport(Long reportId);
 }
